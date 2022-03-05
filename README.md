@@ -47,6 +47,8 @@ Now Switch as ansible user
 ```sh
 su - ansible
 ```
+go to  root user 
+
 Sudo priviledges to ansible User
 ```sh
 visudo

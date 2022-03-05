@@ -371,7 +371,9 @@ master.yml
   roles:
     - webserver                              
 ```
-
+```sh
+ansible-playbook master.yml
+```
 
 
 

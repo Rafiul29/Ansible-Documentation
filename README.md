@@ -45,7 +45,7 @@ passwd ansible
 
 Now Switch as ansible user
 ```sh
-su -ansible
+su - ansible
 ```
 Sudo priviledges to ansible User
 ```sh

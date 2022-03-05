@@ -216,8 +216,7 @@ vi task.yml
   connection: ssh
   tasks:
           - name: Install HTTPD On linus
-            action: yum name=httpd state=installed
-~                                                   
+            action: yum name=httpd state=installed                                        
 ```
 ```sh
 ansible-playbook task.yml
@@ -297,6 +296,25 @@ Check to the user Node1 % Node2
 ```sh
 cat /etc/passwd
 ```
+# Condition
+```sh
+vi condition.yml
+```
+```sh
+--- # My Condition
+- hosts: demo
+  user: ansible
+  become: yes
+  connection: ssh
+  tasks:
+                - name: Install apache server for debian family
+                  command: apt-get -y install apache2
+                  when: ansible_os_family == "Debian"
+                - name: install apache server for redhet family
+                  command: yum -y install httpd
+                  when: ansible_os_family == "RedHat"
+```
+
 # Vault
 Creating a new encrypted playbook
 ```sh
@@ -318,4 +336,49 @@ To decrypted on encrypted playbook
 ```sh
 ansible-vault decrypt target.yml
 ```
+# Roles
+Tree package install.......
+```sh
+sudo yum install tree -y
+```
+```sh
+mkdir -p playbook/roles/webserver/tasks
+tree
+```
+```sh
+cd playbook/
+```
+ ```sh
+ ``
+ touch roles/webserver/tasks/main.yml
+```
+```sh
+vi roles/webserver/tasks/main.yml
+```
+```sh
+- name: install apache on RedHet
+  yum: pkg=httpd state=latest
+```
+```sh
+master.yml
+```
+```sh
+--- # Master playbook
+- hosts: demo
+  user: ansible
+  become: yes
+  connection: ssh
+  roles:
+    - webserver                              
+```
+
+
+
+
+
+
+
+
+
+
 

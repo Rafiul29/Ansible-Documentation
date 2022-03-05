@@ -170,11 +170,11 @@ ansible demo -b -m service -a "name=httpd state=started"
 ```
 user module
 ```sh
-ansible demo -b -m user -a "name = rafiul"
+ansible demo -b -m user -a "name=rafiul"
 ```
 copy module
 ```sh
-ansible demo -b -m copy -a "src=file4 dest =/temp"
+ansible demo -b -m copy -a "src=file4 dest=/temp"
 ```
 # Ansible module Idenpotency is present
 go to ansible server
@@ -182,7 +182,7 @@ go to ansible server
 ansible demo -m setup
 ```
 ```sh
-ansible demo -m setup -a "filter = *ipv4*"
+ansible demo -m setup -a "filter=*ipv4*"
 ```
 
 # Ansible Playbook

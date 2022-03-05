@@ -137,7 +137,7 @@ Got to ansible server
 ansible demo -a "ls"
 ```
 ```sh
-ansible demo -a "ls a"
+ansible demo -a "ls al"
 ```
 ```sh
 ansible demo -a "sudo yum install httpd -y"

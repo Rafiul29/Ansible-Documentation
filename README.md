@@ -122,4 +122,195 @@ ansible demo[2] --list-hosts
 Group sepralid by a colon can be used to use hosts from multiple groups
 
 demo[1:3]:devops[2:8]
+# Ad-hoc command
+demo----->group
+-a-------->argument
+-b-------->become
+Got to ansible server 
+```sh
+ansible demo -a "ls"
+```
+```sh
+ansible demo -a "ls a"
+```
+```sh
+ansible demo -a "sudo yum install httpd -y"
+```
+```sh
+ansible demo -ba "sudo yum install httpd -y"
+```
+```sh
+ansible demo -ba "sudo yum remove httpd -y"
+```
+# Ansible Module
+Go to ansible server
+Note:
+-b = become
+-m = module
+-a = argument
+pkg = package install
+demo = group name
+state:
+install =present
+uninstall = absent
+pakge = latest
+```sh
+ansible demo -b -m yum -a "pkg=httpd state=present"
+```
+```sh
+ansible demo -b -m yum -a "pkg=httpd state=latest"
+```
+yum module
+```sh
+ansible demo -b -m yum -a "pkg=httpd state=absent"
+```
+service module
+```sh
+ansible demo -b -m service  "name=httpd state=started"
+```
+user module
+```sh
+ansible demo -b -m user -a "name = rafiul"
+```
+copy module
+```sh
+ansible demo -b -m copy -a "src=file4 dest =/temp"
+```
+# Ansible module Idenpotency is present
+go to ansible server
+```sh
+ansible demo -m setup
+```
+```sh
+ansible demo -m setup -a "filter = *ipv4*"
+```
+
+# Ansible Playbook
+Go to ansible server 
+Now create one playbook
+```sh
+vi target.yml
+```
+playbook name = target.yml
+```sh
+--- #Target playbook
+- host: demo
+  become: true
+  connection: ssh
+  grather_fact: yes
+  host: demo
+  user: ansible
+```
+```sh
+ansible-playbook target.yml
+```
+# Task
+```sh
+vi task.yml
+```
+```sh
+--- # My  Playbook
+- host: demo
+  user: ansible
+  become: yes
+  connection: ssh
+  tasks:
+         name: install httpd in linux
+         action: yum name=httpd state=install
+```
+```sh
+ansible-playbook task.yml
+```
+# Variable
+go to ansbile server
+```sh
+vi vars.yml
+```
+```sh
+--- # My Variable Playbook
+- host: demo
+  user: ansible
+  become: true
+  connection: ssh
+  vars:
+   pkgname: httpd
+  tasks:
+        name: install httpd server
+        action: yum name='{{pkgname}}' state= install
+
+```
+Create one playbook
+```sh
+ansible-playbook vars.yml
+```
+# Handlers 
+go to ansible server
+```sh
+vi handlers.yml
+```
+```sh
+--- # My Handlers Playbook
+- host: demo
+  user: ansible
+  become: true
+  connection: ssh
+  tasks:
+        name: install httpd linux server
+        action: yum name=httpd state= installed
+        notify: restart HTTPD
+  handlers:
+          - name: restart HTTPD
+            action: service name=httpd state=restarted
+```
+```sh
+ansible-playbook handlers,yml
+```
+# Loops
+Go to ansible server 
+```sh
+vi loops.yml
+```
+```sh
+--- # My Loops Playbook
+- host: demo
+  user: ansible
+  become: true
+  connection: ssh
+  tasks:
+        - name: add a list of user
+         user: name='{{item}}' state=present
+         with_items: 
+                    - Rafiul
+                    - mehedi
+                    - Bappy
+                    - Rayhan
+```
+```sh
+ansible-playbook loops.yml
+```
+To verify , go inside node1
+```sh
+cat /etc/passwd
+```
+# Vault
+Creating a new encrypted playbook
+```sh
+ansible-vault create vault.yml
+```
+Edit the encrypted playbook
+```sh
+ansible-vault edit vault.yml
+```
+To chnage the password
+```sh
+ansible-vault rekey vault.yml
+```
+To encrypt on existing playbook
+```sh
+ansible-vault encrypt target.yml
+```
+To decrypted on encrypted playbook
+```sh
+ansible-vault decrypt target.yml
+```
 

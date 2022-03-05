@@ -55,10 +55,10 @@ visudo
 ```
 Now go to inside this file
 visudo file write....
-
+```sh
 root ALL = (ALL)    ALL
 ansible ALL=(ALL)   NOPASSWD: ALL
-
+```
 Now go to ansible server and they to install httpd package as a ansible user
 ```sh
 sudo yum install httpd -y

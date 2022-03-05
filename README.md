@@ -59,7 +59,7 @@ visudo file write....
 root ALL = (ALL)    ALL
 ansible ALL=(ALL)   NOPASSWD: ALL
 ```
-Now go to ansible server and they to install httpd package as a ansible user
+Now go to ansible server and then to install httpd package as a ansible user
 ```sh
 sudo yum install httpd -y
 ```
@@ -72,17 +72,21 @@ ssh  <node privet ip>
 OUTPUT : permission denied
 
 Now we have to do some changes in sshd_config file go to ansible server
-[roo@ip]#
+Now go to root user
 ```sh
 vi /etc/ssh/sshd_config
+```
+## uncomment and comment
+```sh
+PermitRootLogin yes
+PasswordAuthentication yes
+#PasswordAuthentication no
+
 ```
 ```sh
 service sshd restart
 ```
-## uncomment and comment
-PermitRootLogin yes
-PasswordAuthentication yes
-#PasswordAuthentication no
+
 
 Do this work in Node1 & Node2 also Now verify in ansible server
 [ansible@ip]#

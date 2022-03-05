@@ -8,7 +8,7 @@ Take acces of all machines Windows (vi putty) and linux terminal
 
 Now go inside ansible server and download ansible package
 ```sh
-weget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 ```
 Now do "ls"
 ```sh
@@ -72,7 +72,7 @@ OUTPUT : permission denied
 Now we have to do some changes in sshd_config file go to ansible server
 [roo@ip]#
 ```sh
-vi /etc/ssh/ssh_config
+vi /etc/ssh/sshd_config
 ```
 ```sh
 service sshd restart

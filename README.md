@@ -91,7 +91,7 @@ service sshd restart
 Do this work in Node1 & Node2 also Now verify in ansible server
 [ansible@ip]#
 ```sh
-sudo -ansible
+su - ansible
 ssh  <node privet ip>
 ``` 
 

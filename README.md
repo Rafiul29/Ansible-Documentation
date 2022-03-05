@@ -166,7 +166,7 @@ ansible demo -b -m yum -a "pkg=httpd state=absent"
 ```
 service module
 ```sh
-ansible demo -b -m service  "name=httpd state=started"
+ansible demo -b -m service -a "name=httpd state=started"
 ```
 user module
 ```sh

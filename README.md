@@ -193,13 +193,13 @@ vi target.yml
 ```
 playbook name = target.yml
 ```sh
---- #Target playbook
-- host: demo
+--- # Target playbook
+- hosts: demo
+  user: ansible
   become: true
   connection: ssh
-  grather_fact: yes
-  host: demo
-  user: ansible
+  gather_facts: yes
+
 ```
 ```sh
 ansible-playbook target.yml
@@ -209,14 +209,15 @@ ansible-playbook target.yml
 vi task.yml
 ```
 ```sh
---- # My  Playbook
-- host: demo
+--- # Target playbook
+- hosts: demo
   user: ansible
-  become: yes
+  become: true
   connection: ssh
   tasks:
-         name: install httpd in linux
-         action: yum name=httpd state=install
+          - name: Install HTTPD On linus
+            action: yum name=httpd state=installed
+~                                                   
 ```
 ```sh
 ansible-playbook task.yml
@@ -227,16 +228,17 @@ go to ansbile server
 vi vars.yml
 ```
 ```sh
---- # My Variable Playbook
-- host: demo
+--- # Varibale  playbook
+- hosts: demo
   user: ansible
-  become: true
+  become: yes
   connection: ssh
   vars:
-   pkgname: httpd
-  tasks:
-        name: install httpd server
-        action: yum name='{{pkgname}}' state= install
+          pkgname: httpd
+          tasks:
+                  - name: Install HTTPD On linux server
+                    action: yum name='{{pkgname}}' state=installed
+
 
 ```
 Create one playbook
@@ -249,21 +251,23 @@ go to ansible server
 vi handlers.yml
 ```
 ```sh
---- # My Handlers Playbook
-- host: demo
+--- # Target Handlers
+- hosts: demo
   user: ansible
-  become: true
+  become: yes
   connection: ssh
   tasks:
-        name: install httpd linux server
-        action: yum name=httpd state= installed
-        notify: restart HTTPD
+                - name: install HTTPD on the linux
+                  action: yum name=httpd state=present
+                  notify: restart httpd
   handlers:
-          - name: restart HTTPD
-            action: service name=httpd state=restarted
+                - name: restart httpd
+                  action: service name=httpd state=restared
+
 ```
 ```sh
-ansible-playbook handlers,yml
+ansible-playbook handlers.yml
+ansible-playbook handlers.yml --check
 ```
 # Loops
 Go to ansible server 
@@ -272,23 +276,24 @@ vi loops.yml
 ```
 ```sh
 --- # My Loops Playbook
-- host: demo
+- hosts: demo
   user: ansible
-  become: true
+  become: yes
   connection: ssh
   tasks:
-        - name: add a list of user
-         user: name='{{item}}' state=present
-         with_items: 
-                    - Rafiul
-                    - mehedi
-                    - Bappy
-                    - Rayhan
+                - name: install HTTPD on the linux
+                  user: name='{{item}}' state=present
+                  with_items:
+                          - rafiul
+                          - bappy
+                          - mehedi
+                          - maruf
+
 ```
 ```sh
 ansible-playbook loops.yml
 ```
-To verify , go inside node1
+Check to the user Node1 % Node2
 ```sh
 cat /etc/passwd
 ```
